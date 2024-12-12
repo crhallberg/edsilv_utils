@@ -513,8 +513,20 @@ export class Strings {
         return <string>(<Node>div.firstChild).nodeValue;
     }
     
-    static format(str: string, ...values: string[]): string {
-        for (let i = 0; i < values.length; i++) {
+    static format(str: string, objOrStr: string | Record<string,string>, ...values: string[]): string {
+        // Named template
+        if (Object(objOrStr) === objOrStr) {
+            for (const key in (objOrStr as Record<string, string>)) {
+                const reg = new RegExp(`\\{${key}\\}`, "gm");
+                str = str.replace(reg, values[key]);
+            }
+
+            return str;
+        }
+
+        // Indexed template
+        values.unshift(objOrStr as string);
+        for (let i = 0; i < (values as string[]).length; i++) {
             const reg = new RegExp("\\{" + i + "\\}", "gm");
             str = str.replace(reg, values[i]);
         }

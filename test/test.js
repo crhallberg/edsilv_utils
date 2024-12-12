@@ -12,6 +12,12 @@ describe("string", () => {
         expect(str === "Hi! My name is Slim Shady");
     });
 
+    it("formats (obj)", () => {
+        let str = "{greeting} My name is {alias}";
+        str = utils.Strings.format(str, { alias: "Slim Shady", greeting: "Hi!" });
+        expect(str === "Hi! My name is Slim Shady");
+    });
+
     it("is alphanumeric", () => {
         expect(utils.Strings.isAlphanumeric("313"));
         expect(!utils.Strings.isAlphanumeric("everybody in the 313"));
